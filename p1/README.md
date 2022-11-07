@@ -1,4 +1,4 @@
-# Key/Value Store Service
+# Project 1: Key/Value Store Service
 
 ## Overview
 
@@ -33,10 +33,8 @@ pip3 install grpcio grpcio-tools
 
 Create a file called `numstore.proto` containing a service called `NumStore`, which contains two RPCs:
 
-1. `SetNum` takes a `key` (string) and `value` (int) as parameters and returns a `total` (int)
-2. `Fact` takes a `key` (string) as a parameter and returns a `value` (int), `hit` (bool), and `error` (string)
-
-TODO: return thread ID, error
+1. `SetNum` takes a `key` (string) and `value` (int64) as parameters and returns a `total` (int64)
+2. `Fact` takes a `key` (string) as a parameter and returns a `value` (int64), `hit` (bool), and `error` (string)
 
 Specify `syntax="proto3";` at the top of your file.  Build it:
 
@@ -44,7 +42,7 @@ Specify `syntax="proto3";` at the top of your file.  Build it:
 python3 -m grpc_tools.protoc -I=. --python_out=. --grpc_python_out=. numstore.proto
 ```
 
-Verify `numstore_pb2_grpc.py` was generated.
+Verify `numstore_pb2.py` and `numstore_pb2_grpc.py` were generated.
 
 ## Part 2: Server Implementation
 
@@ -64,16 +62,16 @@ Requirements:
 * use `numstore_pb2_grpc.add_NumStoreServicer_to_server`
 * use port 5440
 
-### SetNum(key, value)
+### `SetNum(key, value)`
 
 Your server should have a two globals variables, a `dict` of values, and in `int` that equals the sum of all the values in the `dict`.
 
-When `SetNum(key, value)` is called, it should set `YOUR_DICTS_NAME[key] = value` and updated the variable storing the total sum.  It should return the new total.
+When `SetNum(key, value)` is called, it should set `YOUR_DICTS_NAME[key] = value` and update the variable storing the total sum.  It should return the new total.
 
 Requirement:
 * don't loop over all the entries in your dict each time to update the total (instead, compare the new value to the old value to determine how the total should change)
 
-### Fact(key)
+### `Fact(key)`
 
 This should key the value (from the global dictionary) corresponding
 to that value, then it should return the factorial of that value.
@@ -83,7 +81,7 @@ key can't be found.
 
 ### Manual testing:
 
-So far, the following client code should produce the expected output indicated by the comments:
+So far, the following client code should produce the expected output (as indicated by the comments):
 
 ```python
 import sys
@@ -119,7 +117,7 @@ numbers.
 Requirements:
 * the cache should hold a maximum of 10 entries
 * write a comment specifying your eviction policy (could be random, LRU, FIFO, something you make up...)
-* check before doing the calculation for factorial
+* check the cache before doing the calculation for factorial
 * in the return value, use `hit=True` or `hit=False` to indicate whether or not the cache was used for the answer
 
 ### Locking
