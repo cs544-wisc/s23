@@ -1,6 +1,6 @@
 # DRAFT!  Don't start yet.
 
-# P5 (mini project): Cassandra, Weather Data
+# P5 (regular project): Cassandra, Weather Data
 
 ## Overview
 
