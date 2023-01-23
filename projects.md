@@ -42,6 +42,12 @@ Your VMs should always run the Ubuntu 22.04 LTS (be sure it is the "x86/64" opti
 
 Be sure to backup your work regularly to a private GitHub repo, or with an `scp` to your personal computer.
 
+For commands like `scp` and others you will use this semester, the the
+cloud console's in-browser SSH client won't work.  You'll need to
+setup SSH keys with `ssh-keygen` and configure it on
+https://console.cloud.google.com/compute/metadata to get from your
+personal computer.
+
 ## Submission
 
 You'll be doing all your work on GitHub classroom.  Watch for Canvas
