@@ -15,6 +15,33 @@ Policies for other collaboration
 * **no code copying**; for example, no emailing code (or similar), no photos of code, no looking at code and typing it line by line
 * copying code then changing it is still copying and thus not allowed
 
+## Compute Setup
+
+We'll be using Google cloud (GCP) for our work this semester.  We'll be
+sharing $100 of credit per student.  Some notes about how to manage this credit:
+
+* some people have multiple GCP accounts, for example, one with @gmail.com and one with @wisc.edu.  You must redeem the credits with your @wisc.edu, but it's fine to then use them under any account
+* Google accounts have multiple "billing accounts" -- these might typically correspond to credit cards.  In your case, you'll have two billing accounts corresponding to two $50 credits we'll provide
+* Virtual machines and other resources are created under "projects", which are assigned to a billing account (and can be reassigned).  When your first billing count is nearly exhausted, you'll need to move your VM over (or create a new one)
+
+Here is a plan/budget for what VM you should have at each point during the semester:
+
+https://docs.google.com/spreadsheets/d/1wSURq5fH5CkUKFLk1MijVMiIbCdUSJbvt0OPx_JfCCc/edit?usp=sharing
+
+Please monitor your credits carefully.  If you're burning through credits faster than the schedule, it is your responsibility to conserve credits (for example, by shutting down your VM overnight).
+
+Your VMs should always run the Ubuntu 22.04 LTS (be sure it is the "x86/64" option).  Here are versions for the software we'll use this semester:
+
+* Ubuntu 22.04
+* Docker 20.10.12
+* Hadoop 3.2.4
+* Spark 3.2.2
+* Cassandra 4.0.7
+* Spark-Cassandra-Connector 2.12
+* Java 1.8.0
+
+Be sure to backup your work regularly to a private GitHub repo, or with an `scp` to your personal computer.
+
 ## Submission
 
 You'll be doing all your work on GitHub classroom.  Watch for Canvas
