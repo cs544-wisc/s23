@@ -166,8 +166,8 @@ Feel free to install `numpy` if that helps with computing percentiles.
 You should write a `Dockerfile` to build an image that runs your server.py.
 
 Requirements:
-* it should be possible to run `docker build n-t p2 .`
-* it should be possible to run your server like this `docker run -p 54321:5440 p2`
+* it should be possible to run `docker build -t p2 .`
+* it should be possible to run your server like this `docker run -p 54321:5440 p2 python3 server.py`
 
 ## Submission
 
@@ -181,7 +181,7 @@ We should be able to look at your submission like this (test your zip in an empt
 ```
 unzip p2.zip
 docker build -t p2 .
-docker run -d -p 54321:5440 p2
+docker run -d -p 54321:5440 p2 python3 server.py
 python3 client.py 54321 > out.txt
 cat out.txt
 ```
