@@ -88,7 +88,7 @@ to any multiplication.
 
 ## Part 2: R^2 Score
 
-Create a `predictedY` tensor by multiplying all of `testY` by `coef`.
+Create a `predictedY` tensor by multiplying all of `testX` by `coef`.
 We'll measure the quality of these predictions by writing a function
 that can compare `predictedY` to the true values in `testY`.
 
@@ -99,7 +99,7 @@ predict (with 1 being the best score).  Different definitions are
 sometimes used, but we'll define it in terms of two variables:
 
 * **SStot**.  To compute this, first compute the average testY value.  Subtract to get the difference between each testY value and the average.  Square the differences, then add the results to get `SStot`
-* **SSreg**.  Same as SStot, but instead of subtracting the average from each testY value, subtract the prediction from `predictedY`
+* **SSreg**.  Same as SStot, but instead of subtracting the average from each testY value, subtract the prediction from `testY`
 
 If our predictions are good, `SSreg` will be much smaller than `SStot`.  So define `improvement = SStot - SSreg`.
 
