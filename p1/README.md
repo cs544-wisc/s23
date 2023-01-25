@@ -25,6 +25,11 @@ Install some packages:
 pip3 install pandas torch
 ```
 
+If your process gets killed when installing torch, try the following command instead:
+```
+pip3 --no-cache-dir install torch
+```
+
 Use train.csv and test.csv to construct four PyTorch tensors:
 `trainX`, `trainY`, `testX`, and `testY`.  Hints:
 
