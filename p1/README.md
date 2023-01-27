@@ -171,7 +171,7 @@ In part 1, you used a hardcoded `coef` vector to predict COVID deaths.  Now, you
 
 Steps:
 * create a TensorDataset (https://pytorch.org/docs/stable/data.html#torch.utils.data.TensorDataset) from your trainX and trainY.
-* create a DataLoader (https://pytorch.org/docs/stable/data.html#torch.utils.data.TensorDataset) that uses your dataset
+* create a DataLoader (https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader) that uses your dataset
   * use shuffle
   * try different batch sizes
 * create a simple linear model by initializing `torch.nn.Linear`
