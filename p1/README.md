@@ -27,7 +27,7 @@ pip3 install pandas torch
 
 If your process gets killed when installing torch, try the following command instead:
 ```
-pip3 --no-cache-dir install torch
+pip3 install -f https://download.pytorch.org/whl/torch_stable.html torch==1.13.1+cpu
 ```
 
 Use train.csv and test.csv to construct four PyTorch tensors:
@@ -186,6 +186,13 @@ Requirements:
 * report the `r2_score` of your predictions on the test data; you must get >0.5
 * print out how long training took to run
 * create a bar plot showing each of the numbers in your `model.weight` tensor.  The x-axis should indicate the column names corresponding to each coefficient (from train.columns)
+
+Optional:
+* To help debug your program, feel free to install Tensorboard:
+```
+pip3 install tensorboard
+```
+* This tutorial (https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html) illustrates how you may use tensorboard to monitor training.
 
 ## Submission
 
