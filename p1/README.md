@@ -196,7 +196,7 @@ pip3 install tensorboard
 
 ## Submission
 
-You should submit your notebook as a `p2.ipynb`.
+You should submit your notebook as a `p1.ipynb`.
 
 ## Approximate Rubric:
 
