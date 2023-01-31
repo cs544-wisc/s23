@@ -166,7 +166,7 @@ Feel free to install `numpy` if that helps with computing percentiles.
 You should write a `Dockerfile` to build an image that runs your server.py.
 
 Requirements:
-* it should be possible to run `docker build n-t p2 .`
+* it should be possible to run `docker build -t p2 .`
 * it should be possible to run your server like this `docker run -p 54321:5440 p2`
 
 ## Submission
