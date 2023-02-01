@@ -177,6 +177,7 @@ Steps:
 * create a simple linear model by initializing `torch.nn.Linear`
   * choose the size based on trainX and trainY
 * create an optimizer from `torch.optim.SGD` that will optimize the `.weight` and `.bias` parameters of your model
+* Optional: Feel free to use another optimizer or learning rate schedule 
   * try different learning rates
 * write a training loop to optimize your model with data from your DataLoader
   * try different numbers of epochs
