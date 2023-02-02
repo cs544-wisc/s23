@@ -1,13 +1,12 @@
-# DRAFT!  Don't start yet.
-
-# P1 (mini project): Predicting COVID Deaths with PyTorch
+# P1 (4% of grade): Predicting COVID Deaths with PyTorch
 
 ## Overview
 
 In this project, we'll use PyTorch to create a regression model that
 can predict how many deaths there will be for a WI census tract, given
-the number of people who have tested positive, broken down by age.  We
-provide CSV files based on this dataset: https://data.dhsgis.wi.gov/datasets/wi-dhs::covid-19-vaccination-data-by-census-tract
+the number of people who have tested positive, broken down by age.
+The train.csv and test.csv files we provide are based on this dataset:
+https://data.dhsgis.wi.gov/datasets/wi-dhs::covid-19-vaccination-data-by-census-tract
 
 Learning objectives:
 * multiply tensors
@@ -17,17 +16,18 @@ Learning objectives:
 
 Before starting, please review the [general project directions](../projects.md).
 
+## Corrections/Clarifications
+
+* none yet
+
 ## Part 1: Prediction with Hardcoded Model
 
 Install some packages:
 
 ```
-pip3 install pandas torch
-```
-
-If your process gets killed when installing torch, try the following command instead:
-```
+pip3 install pandas
 pip3 install -f https://download.pytorch.org/whl/torch_stable.html torch==1.13.1+cpu
+pip3 install tensorboard
 ```
 
 Use train.csv and test.csv to construct four PyTorch tensors:
@@ -50,7 +50,7 @@ tensor([[ 23,  51,  42,  ...,  58,  26,   0],
         [114, 155, 189,  ...,  19,   0,   0]])
 ```
 
-`trainY` (number of COVID deaths per tract) should look like this:
+`trainY` (number of COVID deaths per tract) should look like this (make sure it is vertical, not 1 dimensional!):
 
 ```python
 tensor([[3],
@@ -173,12 +173,10 @@ Steps:
 * create a TensorDataset (https://pytorch.org/docs/stable/data.html#torch.utils.data.TensorDataset) from your trainX and trainY.
 * create a DataLoader (https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader) that uses your dataset
   * use shuffle
-  * try different batch sizes
+  * try different batch sizes and decide what size to use
 * create a simple linear model by initializing `torch.nn.Linear`
   * choose the size based on trainX and trainY
 * create an optimizer from `torch.optim.SGD` that will optimize the `.weight` and `.bias` parameters of your model
-* Optional: Feel free to use another optimizer or learning rate schedule 
-  * try different learning rates
 * write a training loop to optimize your model with data from your DataLoader
   * try different numbers of epochs
   * calculate your loss with `torch.nn.MSELoss`
@@ -188,16 +186,14 @@ Requirements:
 * print out how long training took to run
 * create a bar plot showing each of the numbers in your `model.weight` tensor.  The x-axis should indicate the column names corresponding to each coefficient (from train.columns)
 
-Optional:
-* To help debug your program, feel free to install Tensorboard:
-```
-pip3 install tensorboard
-```
-* This tutorial (https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html) illustrates how you may use tensorboard to monitor training.
+Tips:
+* it can be tricky choosing a good learning rate.  You can use tensorboard to better see what is happening as you tune it: https://pytorch.org/tutorials/recipes/recipes/tensorboard_with_pytorch.html#using-tensorboard-in-pytorch
+* if loss is fluctuating a lot even near the end of training, you might consider using a learning rate scheduler (https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate) to slow learning down near the end.  The project is certainly possible without this, however.
+* pay close attention to warnings about broadcasting and shapes.  Resolve that before proceeding with other troubleshooting.
 
 ## Submission
 
-You should submit your notebook as a `p1.ipynb`.
+You should commit your work in a notebook named `p1.ipynb`.
 
 ## Approximate Rubric:
 
