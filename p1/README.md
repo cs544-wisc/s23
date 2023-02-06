@@ -18,7 +18,7 @@ Before starting, please review the [general project directions](../projects.md).
 
 ## Corrections/Clarifications
 
-* none yet
+* Feb 6: fix `trainX` and `trainY` examples
 
 ## Part 1: Prediction with Hardcoded Model
 
@@ -41,25 +41,25 @@ Use train.csv and test.csv to construct four PyTorch tensors:
 `trainX` (number of positive COVID tests per tract, by age group) should look like this:
 
 ```python
-tensor([[ 23,  51,  42,  ...,  58,  26,   0],
-        [ 21,  31, 210,  ...,   9,   0,   0],
-        [ 82, 124, 236,  ...,  71,  21,   8],
+tensor([[ 24.,  51.,  44.,  ...,  61.,  27.,   0.],
+        [ 22.,  31., 214.,  ...,   9.,   0.,   0.],
+        [ 84., 126., 239.,  ...,  74.,  24.,   8.],
         ...,
-        [266, 355, 273,  ..., 103,  43,   6],
-        [ 81, 115,  89,  ...,  35,   9,   0],
-        [114, 155, 189,  ...,  19,   0,   0]])
+        [268., 358., 277.,  ..., 107.,  47.,   7.],
+        [ 81., 116.,  90.,  ...,  36.,   9.,   0.],
+        [118., 156., 197.,  ...,  19.,   0.,   0.]], dtype=torch.float64)
 ```
 
 `trainY` (number of COVID deaths per tract) should look like this (make sure it is vertical, not 1 dimensional!):
 
 ```python
-tensor([[3],
-        [2],
-        [9],
+tensor([[3.],
+        [2.],
+        [9.],
         ...,
-        [5],
-        [2],
-        [5]])
+        [5.],
+        [2.],
+        [5.]], dtype=torch.float64)
 ```
 
 Let's predict the number of COVID deaths in the test dataset under the
