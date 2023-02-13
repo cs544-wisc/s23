@@ -33,7 +33,7 @@ Please monitor your credits carefully.  If you're burning through credits faster
 Your VMs should always run the Ubuntu 22.04 LTS (be sure it is the "x86/64" option).  Here are versions for the software we'll use this semester:
 
 * Ubuntu 22.04
-* Docker 20.10.12
+* Docker 20.10 (any subversion)
 * Hadoop 3.2.4
 * Spark 3.2.2
 * Cassandra 4.0.7

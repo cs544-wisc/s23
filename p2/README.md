@@ -1,5 +1,3 @@
-# DRAFT!  Don't start yet.
-
 # P2 (regular project): Key/Value Store Service
 
 ## Overview
@@ -22,6 +20,10 @@ Learning objectives:
 * deploy your code in a Docker container
 
 Before starting, please review the [general project directions](../projects.md).
+
+## Corrections/Clarifications
+
+* none yet
 
 ## Part 1: gRPC Interface
 
@@ -171,20 +173,18 @@ Requirements:
 
 ## Submission
 
-You should submit a `p2.zip` file containing your `Dockerfile`, `.py`
-files, and `.proto` file.  You should also capture the output of your
-client.py program from when you ran it in an `out.txt` file that
-should be included in your zip.
-
-We should be able to look at your submission like this (test your zip in an empty directory):
+You should organize and commit your files such that we can run the code in your repo like this:
 
 ```
-unzip p2.zip
+python3 -m grpc_tools.protoc -I=. --python_out=. --grpc_python_out=. numstore.proto
 docker build -t p2 .
 docker run -d -p 54321:5440 p2
 python3 client.py 54321 > out.txt
 cat out.txt
 ```
+
+Be sure to test the above, and commit the out.txt file you generated
+in the process.
 
 ## Approximate Rubric:
 
