@@ -1,4 +1,4 @@
-# P2 (regular project): Key/Value Store Service
+# P2 (8% of grade): Key/Value Store Service
 
 ## Overview
 
