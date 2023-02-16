@@ -22,6 +22,8 @@ Learning objectives:
 
 Before starting, please review the [general project directions](../projects.md).
 
+**Note:** in this project, you will run your jupyter lab server inside a container, a case where VSCode does not work well with. Use the web interface and SSH tunneling for development instead. 
+
 ## Part 1: HDFS Deployment and Data Upload
 
 For this project, you'll create three containers, each from the same
@@ -65,6 +67,8 @@ networks:
         driver: bridge
 ```
 
+
+
 Even though all three containers have the same image, they will do
 different things because `/start.sh` is the ENTRYPOINT, and you'll map
 in different scripts to run startup code (`main.sh` for the main
@@ -89,9 +93,11 @@ writing your .sh files (you'll probably need to modify them):
 Hints:
 
 * HDFS formatting sometimes prompts you if you want to overwrite the previous file system.  You can pass `-force` to make it do so without prompting (useful since this is scripted instead of done manually)
+* when a HDFS cluster is initialized for the first time, it will store a randomly generate a cluster ID on each node. If you format the namenode without formatting the datanodes, the cluster ID at the namenode will not match the cluster ID at the datanodes. Consequently, when the datanodes try to establish the connection with the namenode, it will report an error since it believes it is talking to the namenode of another cluster. One way to avoid this is to specify the cluster ID when formatting the namenode. 
 * note how the namenode is configured with a couple `-D` options.  You should also have `dfs.webhdfs.enabled` be `true`
 * for the `-fs`, you can pass something like `hdfs://SERVER:PORT`.  Use port `9000` and `main` for the server name (matching the Docker service name).
 * we want to access Jupyter from outside the container, so when setting the port number, review our port forwarding options from the compose file
+* the namenode and Jupyter both run in the foreground by default, so whichever one that runs first will block the other from starting. You will need to send one of them to the background. 
 
 You can use `docker compose up` to start your mini cluster of three containers.  Some docker commands that might be helpful for debugging:
 
@@ -105,6 +111,8 @@ main container and create a notebook called `p3.ipynb` where you'll do
 the rest of your work.  You can run `!CMD` inside a cell to run `CMD`
 as a shell command.  Use this approach to show both your shell and
 Python work for this project.
+
+Note that each line under the `volumes` section in `docker-compose.yml` takes the form of `<path on host>:<path in container>`. This tells the container to directly map certain files / folders from the host machine to inside the container so that when you change its content from inside the container, the changes will show up in the path on the host machine. This is how you ensure that `p3.ipynb` does not get lost even if you removes the container running Jupyter. 
 
 Use a shell command in your notebook to download
 https://pages.cs.wisc.edu/~harter/cs639/data/hdma-wi-2021.csv.  Next,
@@ -240,8 +248,7 @@ Find out by manually running a `docker kill <CONTAINER NAME>` command
 on your VM to abruptly stop one of the Datanodes.
 
 Wait until the Namenode realizes the Datanode has died before proceeding.  Run `!hdfs dfsadmin -fs hdfs://main:9000/ -report`
-in your notebook to see when this happens.  If your Namenode is correctly configured, it should take a couple minutes,
-but it could be 10-15 minutes if you didn't use the right configs.  Before proceeding, the report should show one dead Datanode, something
+in your notebook to see when this happens.  Before proceeding, the report should show one dead Datanode, something
 like the following:
 
 <details>
@@ -309,6 +316,8 @@ Last Block Report: Sat Dec 31 20:04:00 GMT 2022
 Num of Blocks: 259
 </pre>
 </details>
+
+Note that HDFS datanodes use heartbeats to inform the namenode of its liveness. That is, the datanodes send a small dummy message (heartbeat) periodically (every 3 seconds by default) to inform the namenode of its presence. Recall that when we start the namenode, we specify `dfs.namenode.stale.datanode.interval=10000` and `dfs.namenode.heartbeat.recheck-interval=30000`. The first says that the namenode considers the datanode stale if it does not receive its heartbeat for 10 seconds (10000 ms) and the second says that it will consider the datanode dead after another 30 seconds. Hence, if you configure your cluster correctly, the namenode will become aware of the loss of datanode within 40 seconds after you killed the datanode. 
 
 Run your code from part 3 again that counts the multi and single
 family dwellings in new cells.  Do so on both double.csv and
