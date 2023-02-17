@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service Calc {
+        rpc Mult(MultReq) returns (MultResp);
+}
+
+message MultReq {
+        int32 x = 1;
+        int32 y = 2;
+}
+
+message MultResp {
+        int32 result = 1;
+}
