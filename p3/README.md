@@ -1,6 +1,6 @@
 # DRAFT!  Don't start yet.
 
-# P3 (mini project): HDFS Replication
+# P3 (4% of grade): HDFS Replication
 
 ## Overview
 
@@ -22,7 +22,9 @@ Learning objectives:
 
 Before starting, please review the [general project directions](../projects.md).
 
-**Note:** in this project, you will run your jupyter lab server inside a container, a case where VSCode does not work well with. Use the web interface and SSH tunneling for development instead. 
+## Corrections/Clarifications
+
+* none yet
 
 ## Part 1: HDFS Deployment and Data Upload
 
@@ -67,8 +69,6 @@ networks:
         driver: bridge
 ```
 
-
-
 Even though all three containers have the same image, they will do
 different things because `/start.sh` is the ENTRYPOINT, and you'll map
 in different scripts to run startup code (`main.sh` for the main
@@ -82,6 +82,14 @@ The `main` service should do three things:
 
 The `worker` service should just start a datanode.
 
+**Note:** in this project, you will run your JupyterLab server inside
+  a container; you can use the web interface and SSH tunneling for
+  development.  We're using this approach because then your code can
+  run in the cs544net and easily communicate with the HDFS processes.
+  Even if you normally use VSCode, it will be difficult to do so for
+  this project (unless you can find a way to use it to connect to the
+  container -- the 544 team does not know a way).
+
 Here are some example commands that you can use for inspiration when
 writing your .sh files (you'll probably need to modify them):
 
@@ -93,7 +101,6 @@ writing your .sh files (you'll probably need to modify them):
 Hints:
 
 * HDFS formatting sometimes prompts you if you want to overwrite the previous file system.  You can pass `-force` to make it do so without prompting (useful since this is scripted instead of done manually)
-* when a HDFS cluster is initialized for the first time, it will store a randomly generate a cluster ID on each node. If you format the namenode without formatting the datanodes, the cluster ID at the namenode will not match the cluster ID at the datanodes. Consequently, when the datanodes try to establish the connection with the namenode, it will report an error since it believes it is talking to the namenode of another cluster. One way to avoid this is to specify the cluster ID when formatting the namenode. 
 * note how the namenode is configured with a couple `-D` options.  You should also have `dfs.webhdfs.enabled` be `true`
 * for the `-fs`, you can pass something like `hdfs://SERVER:PORT`.  Use port `9000` and `main` for the server name (matching the Docker service name).
 * we want to access Jupyter from outside the container, so when setting the port number, review our port forwarding options from the compose file
@@ -102,9 +109,16 @@ Hints:
 You can use `docker compose up` to start your mini cluster of three containers.  Some docker commands that might be helpful for debugging:
 
 * `docker compose ps -a` to see what containers are running or exited
-* `docker compose kill; docker compose rm -f` to get a fresh start
 * `docker logs <CONTAINER NAME>` to see the output of a container
 * `docker exec -it <CONTAINER NAME> bash` to get shell inside the container
+* `docker compose kill; docker compose rm -f` to get a fresh start
+
+The last command above stops and deletes all the containers in your
+cluster.  For simplicity, we recommend this rather than restarting a
+single container when you need to change something as it avoids some
+tricky issues with HDFS.  For example, if you just restart+reformat
+the container with the NameNode, the old DataNodes will not work with
+the new NameNode without a more complicated process/config.
 
 If all is well, you should be to connect to Jupyter inside the the
 main container and create a notebook called `p3.ipynb` where you'll do
