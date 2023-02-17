@@ -1,5 +1,3 @@
-# DRAFT!  Don't start yet.
-
 # P3 (4% of grade): HDFS Replication
 
 ## Overview
