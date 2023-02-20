@@ -23,7 +23,7 @@ Before starting, please review the [general project directions](../projects.md).
 
 ## Corrections/Clarifications
 
-* none yet
+* Feb 20: fixed contradictory directions about number of server threads (there should be 4)
 
 ## Part 1: gRPC Interface
 
@@ -131,7 +131,7 @@ Requirements:
 
 ### Locking
 
-Your server has 8 threads, so use a lock (https://docs.python.org/3/library/threading.html#threading.Lock) when accessing any global variables from `SetNum` or `Fact`.
+Your server has 4 threads, so use a lock (https://docs.python.org/3/library/threading.html#threading.Lock) when accessing any global variables from `SetNum` or `Fact`.
 
 Requirements:
 * the lock should protect any access to shared structures
