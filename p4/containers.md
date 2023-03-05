@@ -4,7 +4,7 @@
 
 ```
 FROM ubuntu:22.04
-RUN apt-get update; apt-get install -y wget curl openjdk-8-jdk python3-pip net-tools lsof nano
+RUN apt-get update; apt-get install -y wget curl openjdk-8-jdk python3-pip net-tools lsof nano unzip
 RUN pip3 install jupyterlab==3.4.5 MarkupSafe==2.0.1 cassandra-driver pyspark==3.2.2 pandas matplotlib
 
 # HDFS
