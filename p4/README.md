@@ -1,6 +1,4 @@
-# DRAFT!  Don't start yet.
-
-# P4 (regular project): Spark, Loan Applications
+# P4 (8% of grade): Spark, Loan Applications
 
 ## Overview
 
@@ -23,6 +21,26 @@ Learning objectives:
 * optimize queries with bucketing and caching
 
 Before starting, please review the [general project directions](../projects.md).
+
+## Corrections/Clarifications
+
+* none yet
+
+## Machine Setup
+
+~4 GB is barely enough for this project.  Take a moment to enable a 1
+GB swap file to supplement.  A swap file exists on storage, but acts
+as extra memory.  Note this has performance implications as storage is
+much slower than RAM.
+
+```
+# https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-22-04
+sudo fallocate -l 1G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+# htop should show 1 GB of swap beneath memory
+```
 
 ## Part 1: Data Setup
 
@@ -211,7 +229,7 @@ We should be able to run the following on your submission to create the mini clu
 
 ```
 docker build -t p4-image ./image
-docker compose up
+docker compose up -d
 ```
 
 We should then be able to open `http://localhost:5000/lab`, find your

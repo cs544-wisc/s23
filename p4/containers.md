@@ -39,11 +39,6 @@ services:
             replicas: 2
         volumes:
         - "./worker.sh:/start.sh"
-
-networks:
-    default:
-        name: cs544net
-        driver: bridge
 ```
 
 ## main.sh
