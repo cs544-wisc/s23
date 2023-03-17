@@ -1,6 +1,6 @@
 # DRAFT!  Don't start yet.
 
-# P6 (regular project): Kafka and Spark Streaming, Weather Data
+# P6 (8% of grade): Kafka and Spark Streaming, Weather Data
 
 ## Overview
 

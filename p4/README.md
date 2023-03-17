@@ -1,4 +1,4 @@
-# P4 (regular project): Spark, Loan Applications
+# P4 (8% of grade): Spark, Loan Applications
 
 ## Overview
 
