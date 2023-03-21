@@ -24,7 +24,7 @@ Before starting, please review the [general project directions](../projects.md).
 
 ## Corrections/Clarifications
 
-* none yet
+* Mar 21: removed "agency" views to create
 
 ## Machine Setup
 
@@ -91,7 +91,6 @@ You can use `spark.sql("SHOW TABLES").show()` to answer.  It should look like th
 |  default|        banks|      false|
 |  default|        loans|      false|
 |         | action_taken|       true|
-|         |       agency|       true|
 |         |     counties|       true|
 |         |denial_reason|       true|
 |         |    ethnicity|       true|
