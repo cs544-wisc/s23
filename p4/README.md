@@ -25,6 +25,8 @@ Before starting, please review the [general project directions](../projects.md).
 ## Corrections/Clarifications
 
 * Mar 21: removed "agency" views to create
+* Mar 25: clarified that Q8 is for top 10
+* Mar 25: for top N questions, it is OK if you have fewer than N categories for your selected bank
 
 ## Machine Setup
 
@@ -172,7 +174,7 @@ The bars are sorted by the number of applications in each county (for
 example, most applications are in Milwaukee, Waukesha is second most,
 etc).
 
-#### Q8: what is the second biggest loan application amount in each county?
+#### Q8: what is the second biggest loan application amount in each county?  (answer for top 10 counties).
 
 Answer with a plot like the following:
 
