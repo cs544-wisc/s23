@@ -1,0 +1,10 @@
+services:
+    db:
+        image: db
+        deploy:
+            replicas: 3
+        volumes:
+        - "./cassandra.sh:/start.sh"
+        - "./nb:/notebooks"
+        ports:
+        - "127.0.0.1:5000-5002:5000"
