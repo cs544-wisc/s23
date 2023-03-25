@@ -25,8 +25,7 @@ Before starting, please review the [general project directions](../projects.md).
 ## Corrections/Clarifications
 
 * Mar 21: removed "agency" views to create
-* Mar 25: clarified that Q8 is for top 10
-* Mar 25: for top N questions, it is OK if you have fewer than N categories for your selected bank
+* Mar 25: clarified that Q8 is for top 10; this is over all loans (not one bank)
 
 ## Machine Setup
 
@@ -175,6 +174,8 @@ example, most applications are in Milwaukee, Waukesha is second most,
 etc).
 
 #### Q8: what is the second biggest loan application amount in each county?  (answer for top 10 counties).
+
+Note this this is computed over all loans, not just for one bank.
 
 Answer with a plot like the following:
 
