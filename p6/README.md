@@ -647,7 +647,7 @@ Note that since we're artificially generating a day's worth of weather
 every second, the predictions are struggling to keep up.  A few days
 pass before we share our predictions -- too late to be useful even if
 it's correct!  We'll ignore this problem for the assignment (if
-weather weren't being simulated an an accelerated rate, it wouldn't be
+weather weren't being simulated at an accelerated rate, it wouldn't be
 a problem).
 
 Stop your notebook/stream after a few batches and save it.
