@@ -657,7 +657,7 @@ Stop your notebook/stream after a few batches and save it.
 We should be able to run the following on your submission to create the mini cluster:
 
 ```
-docker build -t 6 ./image
+docker build -t p6 ./image
 docker compose up -d
 ```
 
