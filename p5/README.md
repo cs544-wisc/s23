@@ -41,6 +41,16 @@ Create a `p5.ipynb` notebook for your work.  Your notebook should
 start by connecting to the Cassandra cluster and running `drop
 keyspace if exists weather`.
 
+Feel free to use the starter code to connect the Cassandra cluster
+```
+from cassandra.cluster import Cluster
+try:
+    cluster = Cluster(['p5-db-1', 'p5-db-2', 'p5-db-3'])
+    session = cluster.connect()
+except Exception as e:
+    print(e)
+```
+
 Now write some code to do the following:
 * create a `weather` keyspace with 3x replication
 * inside `weather`, create a `station_record` type containing two ints: `tmin` and `tmax`
@@ -84,10 +94,12 @@ note that we're including the Spark/Cassandra connector extension.
 
 Download https://pages.cs.wisc.edu/~harter/cs639/data/ghcnd-stations.txt.
 
+Use https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt to understand the header of `ghcnd-station.txt`.
+
 Use Spark to parse the data and insert metadata for every station
 (`id` and `name` columns only) into `weather.stations`.  Feel free to
 use `.collect()` on your Spark DataFrame and loop over the results,
-inserting one by one.
+inserting one by one. Please make sure to verify your spark dataframe before inserting metatdata to Casssandra.
 
 #### Q2: what is the token of the vnode that comes first after the partition for the USC00470273 sensor?
 
@@ -152,8 +164,6 @@ Each call should use a prepared statement to insert or access data in
 `weather.stations`.  It could be something like this:
 
 ```python
-cluster = Cluster(['p5-db-1', 'p5-db-2', 'p5-db-3'])
-cass = cluster.connect()
 insert_statement = cass.prepare("????)")
 insert_statement.consistency_level = ConsistencyLevel.ONE
 max_statement = cass.prepare("????")
