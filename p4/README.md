@@ -26,6 +26,7 @@ Before starting, please review the [general project directions](../projects.md).
 
 * Mar 21: removed "agency" views to create
 * Mar 25: clarified that Q8 is for top 10; this is over all loans (not one bank)
+* Mar 29: made q4 more flexible to accomodate different approaches
 
 ## Machine Setup
 
@@ -129,7 +130,7 @@ question.  `lei` in loans lets you identify the bank.  Filter on
 Show `results.explain("formatted")` and write a comment making observations about the following:
 1. which table is sent to every executor via a `BroadcastExchange` operation?
 2. on which tables is "is not null" filtering added by the optimizer?
-3. which `Functions` do the `HashAggregate`s use?
+3. does the plan involve `HashAggregate`s (depending on how you write the query, it may or may not)?  If so, which ones?
 
 #### Q5: what are the top 10 biggest loans (in terms of `loan_amount`) that were approved by your favorite bank?
 
