@@ -24,7 +24,7 @@ Before starting, please review the [general project directions](../projects.md).
 
 ## Corrections/Clarifications
 
-* none yet
+* updated the container setup page. Mounting cassandra.sh instead of main.sh
 
 ## Part 1: Station Metadata
 
