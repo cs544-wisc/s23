@@ -30,7 +30,7 @@ services:
             replicas: 3
         volumes:
         - "./nb:/notebooks"
-        - "./main.sh:/start.sh"
+        - "./cassandra.sh:/start.sh"
         ports:
         - "127.0.0.1:5000-5002:5000"
 ```
