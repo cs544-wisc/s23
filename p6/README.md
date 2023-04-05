@@ -437,7 +437,7 @@ Remember that part 3 and 4 are in a new notebook, `spark.ipynb`.  It
 is important that you leave `kafka.ipynb` running during this work,
 though.
 
-Start a local Spark session like this:
+Start a local Spark session and read from Kafka stream like this:
 
 ```python
 from pyspark.sql import SparkSession
@@ -446,6 +446,14 @@ spark = (SparkSession.builder.appName("cs544")
          .config("spark.ui.showConsoleProgress", False)
          .config('spark.jars.packages', 'org.apache.spark:spark-sql-kafka-0-10_2.12:3.2.2')
          .getOrCreate())
+
+df = (
+    spark.readStream.format("kafka")
+    .option("kafka.bootstrap.servers", "kafka:9092")
+    .option("subscribe", "stations-json")
+    .option("startingOffsets", "earliest")
+    .load()
+)
 ```
 
 Note that we're disabling the progress bar.  While usually convenient,
@@ -567,10 +575,19 @@ Use the VectorAssembler to combine the feature columns ("month",
 "sub1degrees", "sub1raining", "sub2degrees", "sub2raining") into a
 single column.
 
-Split your data into train and test (you decide the ratios/seed).
+Split your data into train and test.
+
+```python
+train_data, test_data = data.randomSplit([0.8, 0.2], seed=??)
+```
 
 Train a `DecisionTreeClassifier` on your training data to predict
 raining based on the features.
+
+```python
+dt_classifier = DecisionTreeClassifier(??)
+dt_model = dt_classifier.fit(train_data)
+```
 
 Print the decision tree with `toDebugString` -- something like this:
 
@@ -607,6 +624,13 @@ Use the model to make predictions on the test data.  What is the
 *accuracy* (percent of times the model is correct)?  What percent of
 the time is is raining?  You might print these numbers in the
 following way, or feel free to choose your own format:
+
+```python
+predictions = dt_model.transform(test_data)
+
+evaluator = MulticlassClassificationEvaluator(??)
+accuracy = evaluator.evaluate(predictions)
+```
 
 ```
 +------------------+------------------+
