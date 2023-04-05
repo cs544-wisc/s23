@@ -25,7 +25,7 @@ Before starting, please review the [general project directions](../projects.md).
 ## Corrections/Clarifications
 
 * updated the container setup page. Mounting cassandra.sh instead of main.sh
-* when inserting metatdata to weather station table only insert those stations belongs to 
+* when inserting metatdata to weather station table only insert those stations belongs to Wisconsin only
 
 ## Part 1: Station Metadata
 
