@@ -25,6 +25,7 @@ Before starting, please review the [general project directions](../projects.md).
 ## Corrections/Clarifications
 
 * updated the container setup page. Mounting cassandra.sh instead of main.sh
+* when inserting metatdata to weather station table only insert those stations belongs to 
 
 ## Part 1: Station Metadata
 
@@ -104,7 +105,7 @@ Download https://pages.cs.wisc.edu/~harter/cs639/data/ghcnd-stations.txt.
 
 Use https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt to understand the columns of `ghcnd-station.txt`.
 
-Use Spark to parse the data and insert metadata for every station
+Use Spark to parse the data and insert metadata for every station that belongs to Wisconsin `WI`
 (`id` and `name` columns only) into `weather.stations`.  Feel free to
 use `.collect()` on your Spark DataFrame and loop over the results,
 inserting one by one. Please make sure to verify your Spark DataFrame
