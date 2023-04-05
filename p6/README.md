@@ -160,6 +160,9 @@ Other requirements:
 4. stations-json stream: use `json.dumps` to convert a dict to a string and `bytes(???, "utf-8")` to convert a string to bytes
 5. both streams: use a `key=` argument when sending data.  The key should be a byte representation of the station name
 
+Tips:
+1. Date has a special format compared to generic strings. You may need to cast them to string or set default type to string to avoid serialization error when you send data to streams.
+
 ## Part 2: Kafka Consumer
 
 Now, you'll run 3 consumer threads to process the data from the
