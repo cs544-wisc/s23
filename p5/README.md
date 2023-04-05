@@ -1,5 +1,3 @@
-# DRAFT!  Don't start yet.
-
 # P5 (regular project): Cassandra, Weather Data
 
 ## Overview
@@ -24,6 +22,11 @@ Learning objectives:
 
 Before starting, please review the [general project directions](../projects.md).
 
+## Corrections/Clarifications
+
+* updated the container setup page. Mounting cassandra.sh instead of main.sh
+* when inserting metatdata to weather station table only insert those stations belongs to Wisconsin only
+
 ## Part 1: Station Metadata
 
 Using Docker compose, launch a cluster three Cassandra nodes.  For
@@ -37,16 +40,31 @@ Use `docker ps` to see which container is using host port
 docker exec -it -d ???? python3 -m jupyterlab --no-browser --ip=0.0.0.0 --port=5000 --allow-root --NotebookApp.token=''
 ```
 
-Create a `p5.ipynb` notebook for your work.  Your notebook should
-start by connecting to the Cassandra cluster and running `drop
-keyspace if exists weather`.
+Create a `p5.ipynb` notebook for your work inside the `notebooks`
+directory.  Your notebook should start by connecting to the Cassandra
+cluster and running `drop keyspace if exists weather`.
+
+Feel free to use the starter code to connect the Cassandra cluster
+
+```python
+from cassandra.cluster import Cluster
+try:
+    cluster = Cluster(['p5-db-1', 'p5-db-2', 'p5-db-3'])
+    session = cluster.connect()
+except Exception as e:
+    print(e)
+```
+
+Depending on the directory where you created your compose files, the
+container names may be different (e.g., not `p5-db-1`) -- please
+update the above snippet accordingly.
 
 Now write some code to do the following:
 * create a `weather` keyspace with 3x replication
 * inside `weather`, create a `station_record` type containing two ints: `tmin` and `tmax`
 * inside `weather`, create a `stations` table
   * have four columns: `id` (text), `name` (text), `date` (date), `record` (weather.station_record)
-  * `id` is primary key and corresponds to a station's ID (like 'USC00470273')
+  * `id` is a partition key and corresponds to a station's ID (like 'USC00470273')
   * `date` is a cluster key, ascending
   * `name` is a static field (because there is only one name per ID).  Example: 'UW ARBORETUM - MADISON'
   * `record` is a regular field because there will be many records per station partition
@@ -78,16 +96,22 @@ spark = (SparkSession.builder
          .getOrCreate())
 ```
 
-Note that we're running Spark in a simple "client mode" -- we're not
-connecting to a Spark cluster so we won't have multiple workers.  Also
-note that we're including the Spark/Cassandra connector extension.
+Note that we're running Spark in a simple "local mode" -- we're not
+connecting to a Spark cluster so we won't have multiple workers.
+Tasks will be executed directly by the driver.  Also note that we're
+including the Spark/Cassandra connector extension.
 
 Download https://pages.cs.wisc.edu/~harter/cs639/data/ghcnd-stations.txt.
 
-Use Spark to parse the data and insert metadata for every station
+Use https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt to understand the columns of `ghcnd-station.txt`.
+
+Use Spark to parse the data and insert metadata for every station that belongs to Wisconsin `WI`
 (`id` and `name` columns only) into `weather.stations`.  Feel free to
 use `.collect()` on your Spark DataFrame and loop over the results,
-inserting one by one.
+inserting one by one. Please make sure to verify your Spark DataFrame
+before inserting metatdata to Casssandra.
+
+**Hint:** ghcnd-station.txt is difficult to work with because (a) it's not a CSV file and (b) it lacks a header row.  Based on the documentation, you'll need to hardcode some offsets to extract cells from each line.  We worked through a simple example with this file in lecture: https://github.com/cs544-wisc/s23/blob/main/lec/18-spark/nb/demo.ipynb
 
 #### Q2: what is the token of the vnode that comes first after the partition for the USC00470273 sensor?
 
@@ -152,9 +176,7 @@ Each call should use a prepared statement to insert or access data in
 `weather.stations`.  It could be something like this:
 
 ```python
-cluster = Cluster(['p5-db-1', 'p5-db-2', 'p5-db-3'])
-cass = cluster.connect()
-insert_statement = cass.prepare("????)")
+insert_statement = cass.prepare("????")
 insert_statement.consistency_level = ConsistencyLevel.ONE
 max_statement = cass.prepare("????")
 max_statement.consistency_level = ????
@@ -175,8 +197,8 @@ If execute of either prepared statement raises a `ValueError` or
 response with the `error` string set to something informative.
 
 Choose one of your three containers and start running `server.py`
-there, alongside the Cassandra node already running.  You could use
-something like this:
+there, alongside one of the already-running Cassandra nodes.  You
+could choose one of the containers and do something like this:
 
 ```
 docker exec -it ???? python3 /share/server.py

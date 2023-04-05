@@ -26,6 +26,8 @@ Before starting, please review the [general project directions](../projects.md).
 
 * Mar 21: removed "agency" views to create
 * Mar 25: clarified that Q8 is for top 10; this is over all loans (not one bank)
+* Mar 29: made q4 more flexible to accomodate different approaches
+* Mar 30: Q6 is asking under what situation (when) you need Network I/O. If one of your queries does not need Network I/O explain why.
 
 ## Machine Setup
 
@@ -129,7 +131,7 @@ question.  `lei` in loans lets you identify the bank.  Filter on
 Show `results.explain("formatted")` and write a comment making observations about the following:
 1. which table is sent to every executor via a `BroadcastExchange` operation?
 2. on which tables is "is not null" filtering added by the optimizer?
-3. which `Functions` do the `HashAggregate`s use?
+3. does the plan involve `HashAggregate`s (depending on how you write the query, it may or may not)?  If so, which ones?
 
 #### Q5: what are the top 10 biggest loans (in terms of `loan_amount`) that were approved by your favorite bank?
 
@@ -155,11 +157,11 @@ Joining `counties` will be a very tricky.  Tips:
 
 ## Part 3: GROUPY BY and Windowing
 
-#### Q6: when computing a MEAN aggregate per group of loans, when do we require network I/O between the `partial_mean` and `mean` operations?
+#### Q6: when computing a MEAN aggregate per group of loans, under what situation (when) do we require network I/O between the `partial_mean` and `mean` operations?
 
 Write some simple `GROUP BY` queries on `loans` and call .explain().  Try grouping by both the `county_code` and `lei` columns.
 
-If a network transfer is necessary for one query but not the other,
+If a network transfer (network I/O) is necessary for one query but not the other,
 write a comment explaining why.  You might want to look back at how
 you loaded the data to a Hive table earlier.
 

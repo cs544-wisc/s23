@@ -29,15 +29,10 @@ services:
         deploy:
             replicas: 3
         volumes:
+        - "./nb:/notebooks"
         - "./cassandra.sh:/start.sh"
-        - "./share:/share"
         ports:
         - "127.0.0.1:5000-5002:5000"
-
-networks:
-    default:
-        name: cs544net
-        driver: bridge
 ```
 
 ## cassandra.sh
