@@ -329,6 +329,23 @@ for partition in range(6):
         os.remove(path)
 ```
 
+You can use the following starter code for loading and saving a partition:
+
+```python
+def load_partition(partition_num):
+    path = f"partition-{partition_num}.json"
+    if os.path.exists(path):
+        with open(path, "r") as file:
+            return json.load(file)
+    else:
+        return { ???? }
+
+def save_partition(partition):
+    path = f"partition-{partition['partition']}.json"
+    with open(path, "w") as file:
+        json.dump(partition, file)
+```
+
 You can use the following starter code for your consumers:
 
 ```python
