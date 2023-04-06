@@ -583,6 +583,7 @@ Do some imports:
 ```python
 from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.classification import DecisionTreeClassifier
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 ```
 
 Read your parquet files from part 3 (depending on how long it has been
