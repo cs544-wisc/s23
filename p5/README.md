@@ -26,6 +26,7 @@ Before starting, please review the [general project directions](../projects.md).
 
 * updated the container setup page. Mounting cassandra.sh instead of main.sh
 * when inserting metatdata to weather station table only insert those stations belongs to Wisconsin only
+* Apr 7: vnode token example in Q2 was incorrect -- fixed it
 
 ## Part 1: Station Metadata
 
@@ -123,7 +124,7 @@ Your output should be something like this (numbers may differ, of course):
 
 ```
 row token:   -9014250178872933741
-vnode token: -9085877961874923753
+vnode token: -8978105931410738024
 ```
 
 ## Part 2: Temperature Data
