@@ -1,5 +1,3 @@
-# DRAFT!  Don't start yet.
-
 # P6 (8% of grade): Kafka and Spark Streaming, Weather Data
 
 ## Overview
@@ -41,57 +39,9 @@ Start two notebooks called `kafka.ipynb` (parts 1 and 2) and
 `spark.ipynb` (parts 3 and 4) inside the "notebooks" directory within
 the "app" container.
 
-Paste the following helper code that generates random weather for a
+Paste some [helper code](weather.md) that generates random weather for a
 given number of stations (it's not completely random -- there are
-seasonal and day-to-day patterns unique to each station):
-
-```python
-import datetime, time, random, string
-
-def one_station(name):
-    # temp pattern
-    month_avg = [27,31,44,58,70,79,83,81,74,61,46,32]
-    shift = (random.random()-0.5) * 30
-    month_avg = [m + shift + (random.random()-0.5) * 5 for m in month_avg]
-    
-    # rain pattern
-    start_rain = [0.1,0.1,0.3,0.5,0.4,0.2,0.2,0.1,0.2,0.2,0.2,0.1]
-    shift = (random.random()-0.5) * 0.1
-    start_rain = [r + shift + (random.random() - 0.5) * 0.2 for r in start_rain]
-    stop_rain = 0.2 + random.random() * 0.2
-
-    # day's state
-    today = datetime.date(2000, 1, 1)
-    temp = month_avg[0]
-    raining = False
-    
-    # gen weather
-    while True:
-        # choose temp+rain
-        month = today.month - 1
-        temp = temp * 0.8 + month_avg[month] * 0.2 + (random.random()-0.5) * 20
-        if temp < 32:
-            raining=False
-        elif raining and random.random() < stop_rain:
-            raining = False
-        elif not raining and random.random() < start_rain[month]:
-            raining = True
-
-        yield (today, name, temp, raining)
-
-        # next day
-        today += datetime.timedelta(days=1)
-        
-def all_stations(count=10, sleep_sec=1):
-    assert count <= 26
-    stations = []
-    for name in string.ascii_uppercase[:count]:
-        stations.append(one_station(name))
-    while True:
-        for station in stations:
-            yield next(station)
-        time.sleep(sleep_sec)
-```
+seasonal and day-to-day patterns unique to each station).
 
 Try getting data from it to see how it works:
 
@@ -137,6 +87,9 @@ The JSON format will similarly have four keys -- the biggest difference is that 
 * "degrees"
 * "raining" (use 1 for raining or 0 for not raining)
 
+Note that JSON supports Booleans too, but we're using an int to make a
+later part where we do machine learning easier.
+
 Write a function that loops forever over the weather for 15 stations,
 sending the data to the two streams.  You could use this for a starter:
 
@@ -160,9 +113,6 @@ Other requirements:
 4. stations-json stream: use `json.dumps` to convert a dict to a string and `bytes(???, "utf-8")` to convert a string to bytes
 5. both streams: use a `key=` argument when sending data.  The key should be a byte representation of the station name
 
-Tips:
-1. Date has a special format compared to generic strings. You may need to cast them to string or set default type to string to avoid serialization error when you send data to streams.
-
 ## Part 2: Kafka Consumer
 
 Now, you'll run 3 consumer threads to process the data from the
@@ -175,37 +125,10 @@ Overview:
 * each partition will correspond to one file named "partition-N.json" (where N is the partition number)
 * the above point means each thread will be in charge of keeping two JSON files updated
 
-This is an example of a JSON file corresponding to a partition (due to a several factors you'll probably never see this exact data):
+This is an example of a JSON file corresponding to partition 2 (due to several factors you'll probably never see this exact data):
 
 ```python
 {
-  "N": {
-    "avg": 32.49171033949124,
-    "count": 134,
-    "end": "2000-05-13",
-    "start": "2000-01-01",
-    "sum": 4353.8891854918265
-  },
-  "offset": 134,
-  "partition": 0
-}{
-  "E": {
-    "avg": 28.718693603059087,
-    "count": 134,
-    "end": "2000-05-13",
-    "start": "2000-01-01",
-    "sum": 3848.3049428099175
-  },
-  "O": {
-    "avg": 34.1969656334807,
-    "count": 134,
-    "end": "2000-05-13",
-    "start": "2000-01-01",
-    "sum": 4582.393394886414
-  },
-  "offset": 268,
-  "partition": 1
-}{
   "F": {
     "avg": 31.047916671797324,
     "count": 136,
@@ -229,85 +152,13 @@ This is an example of a JSON file corresponding to a partition (due to a several
   },
   "offset": 408,
   "partition": 2
-}{
-  "D": {
-    "avg": 45.98143392631751,
-    "count": 136,
-    "end": "2000-05-15",
-    "start": "2000-01-01",
-    "sum": 6253.475013979181
-  },
-  "G": {
-    "avg": 39.21380621866297,
-    "count": 136,
-    "end": "2000-05-15",
-    "start": "2000-01-01",
-    "sum": 5333.0776457381635
-  },
-  "M": {
-    "avg": 30.725245508290406,
-    "count": 136,
-    "end": "2000-05-15",
-    "start": "2000-01-01",
-    "sum": 4178.633389127495
-  },
-  "offset": 408,
-  "partition": 3
-}{
-  "A": {
-    "avg": 39.85364068931509,
-    "count": 135,
-    "end": "2000-05-14",
-    "start": "2000-01-01",
-    "sum": 5380.241493057538
-  },
-  "B": {
-    "avg": 30.92598242945998,
-    "count": 135,
-    "end": "2000-05-14",
-    "start": "2000-01-01",
-    "sum": 4175.007627977097
-  },
-  "C": {
-    "avg": 58.29112489542931,
-    "count": 135,
-    "end": "2000-05-14",
-    "start": "2000-01-01",
-    "sum": 7869.301860882957
-  },
-  "K": {
-    "avg": 34.70506723549445,
-    "count": 135,
-    "end": "2000-05-14",
-    "start": "2000-01-01",
-    "sum": 4685.18407679175
-  },
-  "L": {
-    "avg": 49.345066289742846,
-    "count": 135,
-    "end": "2000-05-14",
-    "start": "2000-01-01",
-    "sum": 6661.583949115284
-  },
-  "offset": 675,
-  "partition": 4
-}{
-  "H": {
-    "avg": 34.792595639350694,
-    "count": 135,
-    "end": "2000-05-14",
-    "start": "2000-01-01",
-    "sum": 4697.000411312343
-  },
-  "offset": 135,
-  "partition": 5
 }
 ```
 
 The dict in the JSON file should have the following keys at the top level:
 * "partition": the partition number in the `stations` stream, from which the stats were computed
 * "offset": the partition offset to which the consumer read to produce this file
-* stations: a key for each station in the partition (in this case, stations "E" and "O")
+* stations: a key for each station in the partition (in this case, stations "F", "I", and "J")
 
 Each station key has a corresponding dict value with the following entries:
 * "sum": sum of temperatures seen so far (yes, this is an odd metric by itself)
@@ -355,7 +206,7 @@ def consume(part_nums=[], iterations=10):
     consumer.assign(????)
 
     # PART 1: initialization
-    partitions = {} # key=partition, value=snapshot dict
+    partitions = {} # key=partition num, value=snapshot dict
     # TODO: load partitions from JSON files (if they exist) or create fresh dicts
     # TODO: if offsets were specified in previous JSON files, the consumer
     #       should seek to those; else, seek to offset 0.
@@ -388,7 +239,7 @@ assigment simplicity, we just iterate 30 times (so you don't need to
 keep restarting your whole notebook to kill+restart the consumer
 threads after code changes).
 
-Note that we also do 2 rounds of the 30 iterations.  The point here is
+Note that we do two rounds of the 30 iterations.  The point here is
 to practice writing your consumers so that if they die and get
 restarted, the new consumers can pickup where the previous ones left
 off, while avoiding both these problems:
@@ -544,7 +395,7 @@ As long as a few batches print out, don't worry if you see this "WARN Processing
 
 Now lets generate some data so we can train a model (in part 4) to predict rain.
 
-Define DataFrames named `features` and `today` that look like this:
+Define DataFrames named `today` and `features` that look like this:
 * `DataFrame[station: string, date: date, raining: int]`
 * `DataFrame[station: string, date: date, month: int, sub1degrees: float, sub1raining: int, sub2degrees: float, sub2raining: int]`
 
