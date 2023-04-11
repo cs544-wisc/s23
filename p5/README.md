@@ -27,6 +27,7 @@ Before starting, please review the [general project directions](../projects.md).
 * updated the container setup page. Mounting cassandra.sh instead of main.sh
 * when inserting metatdata to weather station table only insert those stations belongs to Wisconsin only
 * Apr 7: vnode token example in Q2 was incorrect -- fixed it
+* Apr 10: Q4 calculate the correlation between the maximum temperatures in Madison and Milwaukee
 
 ## Part 1: Station Metadata
 
@@ -272,7 +273,7 @@ Query `weather2022`, use your UDF, and create a plot like this:
 
 This is station USW00014837.
 
-#### Q4: what is the correlation between weather in Madison and Milwaukee?
+#### Q4: what is the correlation between maximum temperatures in Madison and Milwaukee?
 
 For Madison use USW00014837 and for Milwaukee use USW00014839.
 
