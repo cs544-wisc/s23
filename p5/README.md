@@ -28,6 +28,7 @@ Before starting, please review the [general project directions](../projects.md).
 * when inserting metatdata to weather station table only insert those stations belongs to Wisconsin only
 * Apr 7: vnode token example in Q2 was incorrect -- fixed it
 * Apr 10: Q4 calculate the correlation between the maximum temperatures in Madison and Milwaukee
+* Apr 11: updated examples to have server.py in "notebooks" (instead of "share")
 
 ## Part 1: Station Metadata
 
@@ -203,7 +204,7 @@ there, alongside one of the already-running Cassandra nodes.  You
 could choose one of the containers and do something like this:
 
 ```
-docker exec -it ???? python3 /share/server.py
+docker exec -it ???? python3 /notebooks/server.py
 ```
 
 ### Client
@@ -324,7 +325,7 @@ docker exec -it -d ???? python3 -m jupyterlab --no-browser --ip=0.0.0.0 --port=5
 AND
 
 ```
-docker exec -it ???? python3 /share/server.py
+docker exec -it ???? python3 /notebooks/server.py
 ```
 
 We should then be able to open `http://localhost:5000/lab`, find your
