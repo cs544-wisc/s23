@@ -336,7 +336,6 @@ Use a `spark.readStream` to load the `stations-json` stream to a DataFrame.  Tip
 
 Requirements
 * use `.option("startingOffsets","earliest")` to begin with the earliest data
-* in addition to the columns of actual data you recorded, include the "timestamp" column, and configure a 10 minute watermark on that column.
 
 ## Stats
 
