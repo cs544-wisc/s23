@@ -1,0 +1,28 @@
+services:
+  app:
+    image: cs544
+    ports:
+    - "127.0.0.1:5000:5000"
+    - "127.0.0.1:4040:4040"
+    volumes:
+    - "./nb:/notebooks"
+    entrypoint: ["python3", "-m", "jupyterlab", "--no-browser", "--ip=0.0.0.0", "--port=5000", "--allow-root", "--NotebookApp.token=''"]
+
+  # adapted from here: https://github.com/confluentinc/kafka-images/blob/master/examples/kafka-single-node/docker-compose.yml
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
