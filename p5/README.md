@@ -29,6 +29,7 @@ Before starting, please review the [general project directions](../projects.md).
 * Apr 7: vnode token example in Q2 was incorrect -- fixed it
 * Apr 10: Q4 calculate the correlation between the maximum temperatures in Madison and Milwaukee
 * Apr 11: updated examples to have server.py in "notebooks" (instead of "share")
+* Apr 12: added clarification about counts in q7
 
 ## Part 1: Station Metadata
 
@@ -306,6 +307,10 @@ Print the count, refresh the cache, then print again.  It should be something li
 BEFORE REFRESH: 1460
 AFTER REFRESH: 1825
 ```
+
+Note that we're only counting regular rows of data (not per-partition
+data in partition keys and static columns), so you can use something
+`COUNT(record)` to only count rows where record is not NULL.
 
 ## Submission
 
