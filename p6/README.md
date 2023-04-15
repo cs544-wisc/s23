@@ -27,7 +27,7 @@ Before starting, please review the [general project directions](../projects.md).
 
 ## Clarifications/Correction
 
-* none yet
+* Apr 15: fix docker-compose.yml example
 
 ## Part 1: Kafka Producer
 
