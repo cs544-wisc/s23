@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 RUN apt-get update; apt-get install -y wget curl openjdk-8-jdk python3-pip net-tools lsof nano unzip
-RUN pip3 install jupyterlab==3.4.5 MarkupSafe==2.0.1 cassandra-driver pyspark==3.2.2 pandas=1.5.3 matplotlib numpy==1.23.1
+RUN pip3 install jupyterlab==3.4.5 MarkupSafe==2.0.1 cassandra-driver pyspark==3.2.2 pandas==1.5.3 matplotlib numpy==1.23.1
 # numpy note: https://stackoverflow.com/questions/74893742/how-to-solve-attributeerror-module-numpy-has-no-attribute-bool
 
 # HDFS
