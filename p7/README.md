@@ -60,12 +60,19 @@ bq = bigquery.Client(project="cs320-f21")
 
 ## Part 1: County Data (Public Dataset)
 
-TODO: exlpain how to find public data.
-
 For this part, you'll use the
-`bigquery-public-data.geo_us_boundaries.counties` dataset.  This
+`bigquery-public-data.geo_us_boundaries.counties` table.  This
 contains names, IDs, boundaries, and more for every county in the
 United States.
+
+If we hadn't provide you the name of the table, you could have found
+it yourself as follows:
+
+1. go to the GCP Marketplace by finding it in the menu or directly going to https://console.cloud.google.com/marketplace
+2. using the Category, Type, and Price filters select "Maps", "Datasets", and "Free" respectively
+3. click "Census Bureau US Boundaries"
+4. click "VIEW DATASET"
+5. from this view, you can expand the `geo_us_boundaries` dataset to see `counties` and other related tables; you can also browse the other datasets under the `bigquery-public-data` category
 
 Note that there are also some corner cases in US geography, with
 regions that are not part of a county.  For example, "St. Louis City"
@@ -108,9 +115,12 @@ Answer with dict where keys indentify which query, and values are the cost in do
 
 ## Part 2: HDMA Data (Parquet in GCS)
 
-TODO: describe parquet file.
-
-[TODO](cleanup.md)
+Download
+https://pages.cs.wisc.edu/~harter/cs639/data/hdma-wi-2021.parquet to
+your laptop.  This is a subset of the data from the CSV in
+hdma-wi-2021.zip that we used in earlier projects.  We've done some
+cleanup and conversion work for you to make the parquet file -- [see
+here](cleanup.md) if you're interested about what exactly we've done.
 
 Create a private GCS bucket (named whatever you like).  Upload the
 parquet file to your bucket.
