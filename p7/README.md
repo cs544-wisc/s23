@@ -26,23 +26,23 @@ Before starting, please review the [general project directions](../projects.md).
 
 ## Setup
 
-You'll create and submit a p7.ipynb notebook.  You'll answer 10
+You'll create and submit a `p7.ipynb` notebook.  You'll answer 10
 questions in the notebook.  If the output of a cell answers question
 3, start the cell with a comment: `#q3`.  The autograder depends on
 this to correlate parts of your output with specific questions.
 
-Run JupyterLab directly on your VM (no Docker containers).  Make sure
-you have these Python packages installed:
-* `google-cloud-bigquery`
-* `pandas`
-* `db-dtypes`
+Run JupyterLab directly on your VM (no Docker containers).  You'll need some packages:
 
-You'll need to give your VM permission to access BigQuery and Google
+```
+pip3 install google-cloud-bigquery google-cloud-bigquery-storage pyarrow tqdm ipywidgets pandas matplotlib db-dtypes
+```
+
+You'll also need to give your VM permission to access BigQuery and Google
 Drive.  You can do so by running the following and following the
 directions:
 
 ```
-gcloud auth application-default login --scopes=openid,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.login,https://www.googleapis.com/auth/drive
+gcloud auth application-default login --scopes=openid,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/drive.readonly
 ```
 
 **Be careful, because if a malicous party were to gain access to your
@@ -52,10 +52,33 @@ more).  For example, if your Jupyter is listening publicly (i.e.,
 password), someone could gain access to your VM, and then these other
 resources.**
 
-You can create a BigQuery client like this:
+When you're not actively working, you may want to revoke (take away)
+the permissions your VM has to minimize risk:
+
+```
+gcloud auth application-default revoke
+```
+
+## Notebook
+
+You can create a BigQuery client like this in your p7.ipynb:
 ```python
 from google.cloud import bigquery
-bq = bigquery.Client(project="cs320-f21")
+bq = bigquery.Client(project="????")
+```
+
+You can do queries and get results in Pandas DataFrames like this:
+
+q = bq.query("""
+????
+""")
+q.to_dataframe()
+
+Add comments in the cells that answer each question.  For example, Q1 should look like this:
+
+```python
+#q1
+...your code...
 ```
 
 ## Part 1: County Data (Public Dataset)
@@ -247,4 +270,7 @@ accordingly.
 
 ## Grading:
 
-TODO: comment about autograder...
+Run `autograder.py p7.ipynb` to estimate your grade.  In general, this
+will be your grade unless there is a serious issue such as hardcoding
+or a code that isn't close but happens to produce a result in the
+acceptable range
