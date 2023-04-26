@@ -4,10 +4,11 @@
 
 This one is optional, but you can earn bonus credit by doing it (see https://canvas.wisc.edu/courses/345251/discussion_topics/1525284 for details).
 
-Closer to the deadline, we'll share a form that you should submit if
-you want us to grade your P7.  If you start P7 and push partial
-results but don't finish, don't worry -- if you don't submit the form,
-we'll just grade you over P1-P6.
+If you want us to grade you on P1-P7, fill this by the last day of
+class: https://forms.gle/KdjV9UCeWogpkNTD9.  This is a final
+decision, so even if you plan to do P7, I recommend waiting to fill
+this until you are done (in case you change your mind).  If you don't
+fill the form (or say "no" on the form), we'll grade you on P1-P6.
 
 ## Overview
 
@@ -287,7 +288,15 @@ acceptable range
 ## Submission
 
 Check (and double check) that all the tests are passing when you
-submit.
+submit.  Submission:
+
+1. push to GitHub
+2. fill this form: https://forms.gle/KdjV9UCeWogpkNTD9Links to an external site
+
+The reason for having a separate form is that you shouldn't feel
+reluctant to push partial work to GitHub.  If you decide you don't
+want us to grade P7, just don't fill the form, and the partial work on
+GitHub won't hurt you.
 
 We should be able to open and run your notebook.  Note that your GCP
 project name and GCP bucket name are probably different than ours.
