@@ -1,5 +1,14 @@
 # P7 (8% of grade): BigQuery, Loans Data
 
+## Note
+
+This one is optional, but you can earn bonus credit by doing it (see https://canvas.wisc.edu/courses/345251/discussion_topics/1525284 for details).
+
+Closer to the deadline, we'll share a form that you should submit if
+you want us to grade your P7.  If you start P7 and push partial
+results but don't finish, don't worry -- if you don't submit the form,
+we'll just grade you over P1-P6.
+
 ## Overview
 
 In this project, we'll (a) study the geography of loans in WI using
