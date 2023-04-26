@@ -1,5 +1,3 @@
-# NOT FINISHED, DON'T START YET!
-
 # P7 (8% of grade): BigQuery, Loans Data
 
 ## Overview
@@ -37,9 +35,9 @@ Run JupyterLab directly on your VM (no Docker containers).  You'll need some pac
 pip3 install google-cloud-bigquery google-cloud-bigquery-storage pyarrow tqdm ipywidgets pandas matplotlib db-dtypes
 ```
 
-You'll also need to give your VM permission to access BigQuery and Google
-Drive.  You can do so by running the following and following the
-directions:
+You'll also need to give your VM permission to access BigQuery and
+Google Drive.  You can do so by pasting the following into the
+terminal on your VM and following the directions:
 
 ```
 gcloud auth application-default login --scopes=openid,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/drive.readonly
@@ -61,7 +59,9 @@ gcloud auth application-default revoke
 
 ## Notebook
 
-You can create a BigQuery client like this in your p7.ipynb:
+You can create a BigQuery client like this in your `p7.ipynb` (lookup
+your project in the Google cloud console to replace `????`):
+
 ```python
 from google.cloud import bigquery
 bq = bigquery.Client(project="????")
@@ -69,10 +69,12 @@ bq = bigquery.Client(project="????")
 
 You can do queries and get results in Pandas DataFrames like this:
 
+```python
 q = bq.query("""
 ????
 """)
 q.to_dataframe()
+```
 
 Add comments in the cells that answer each question.  For example, Q1 should look like this:
 
@@ -80,6 +82,12 @@ Add comments in the cells that answer each question.  For example, Q1 should loo
 #q1
 ...your code...
 ```
+
+The autograder will extract your output from these cells, so it won't
+give points if not formatted correctly (extra spaces, split cells,
+etc.).  For this projects, answers are simple types (e.g., ints,
+floats, dicts), so you'll need to do a little extra work to get
+results out of the DataFrames you get from BigQuery.
 
 ## Part 1: County Data (Public Dataset)
 
@@ -100,7 +108,7 @@ it yourself as follows:
 Note that there are also some corner cases in US geography, with
 regions that are not part of a county.  For example, "St. Louis City"
 is an independant city, meaning it's not part of St. Louis County.
-Thus, the counties dataset contains some regions that are not
+The counties dataset contains some regions that are not
 technically counties (though we will treat them as such for this
 project).
 
@@ -127,7 +135,7 @@ Assumptions:
 
 Hints:
 1. look at the `total_bytes_billed` attribute of the query objects
-2. when you re-run the queries, bytes billed is probably about zero due to caching.  You can create a job config (to pass along with the query) to disable caching: `bigquery.QueryJobConfig(use_query_cache=False)`
+2. when you re-run the queries, bytes billed is probably zero due to caching.  You can create a job config (to pass along with the query) to disable caching: `bigquery.QueryJobConfig(use_query_cache=False)`.  This will let you get realistic numbers for first-time runs.
 3. look up the Iowa pricing per TB here: https://cloud.google.com/bigquery/pricing#on_demand_pricing
 
 Answer with dict where keys indentify which query, and values are the cost in dollars.  Example:
@@ -159,12 +167,12 @@ table called `hdma` inside your `p7` project.
 Use this line of code to answer:
 
 ```python
-[ds.dataset_id for ds in bq.list_datasets("cs320-f21")]
+[ds.dataset_id for ds in bq.list_datasets("????")] # PASTE project name
 ```
 
-The output ought to contain the `p7` project.
+The output ought to contain the `p7` dataset.
 
-#### Q5: how many loan applications are there for each county?
+#### Q5: how many loan applications are there in the HDMA data for each county?
 
 Answer with a dict where the key is the county name and the value is
 the count.  The dict should only contain the 10 counties with most
@@ -183,8 +191,8 @@ applications.  It should look like this:
  'Winnebago': 9310}
 ```
 
-You'll need to join your private hdma table against the public
-counties table.
+You'll need to join your private table against the public counties
+table to get the county name.
 
 ## Part 3: Application Data (Google Sheet Linked to Form)
 
@@ -256,17 +264,9 @@ time.
 
 For example, if 75% are greater, the answer would be 0.75.
 
-Note that the model has two features: income and loan_term; the form
+Note that the model has two features: `income` and `loan_term`; the form
 only collects income, so assume the loan term is 360 months (30 years)
 for all the applications in the Google sheet.
-
-## Submission
-
-We should be able to open and run your notebook.  Note that your GCP
-project name and GCP bucket name are probably different than ours.
-It's OK to hardcode names specific to your account in your notebook
-and assume that anybody else that wants to run it will tweak the code
-accordingly.
 
 ## Grading:
 
@@ -274,3 +274,14 @@ Run `autograder.py p7.ipynb` to estimate your grade.  In general, this
 will be your grade unless there is a serious issue such as hardcoding
 or a code that isn't close but happens to produce a result in the
 acceptable range
+
+## Submission
+
+Check (and double check) that all the tests are passing when you
+submit.
+
+We should be able to open and run your notebook.  Note that your GCP
+project name and GCP bucket name are probably different than ours.
+It's OK to hardcode names specific to your account in your notebook
+and assume that anybody else that wants to run it will tweak the code
+accordingly.
