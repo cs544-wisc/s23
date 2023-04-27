@@ -283,7 +283,7 @@ for all the applications in the Google sheet.
 Run `autograder.py p7.ipynb` to estimate your grade.  In general, this
 will be your grade unless there is a serious issue such as hardcoding
 or a code that isn't close but happens to produce a result in the
-acceptable range
+acceptable range. Please reach out to Kalpit for any questions/suggestions.
 
 ## Submission
 
