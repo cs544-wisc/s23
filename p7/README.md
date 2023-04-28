@@ -30,7 +30,7 @@ Before starting, please review the [general project directions](../projects.md).
 
 ## Clarifications/Correction
 
-* none yet
+* Apr 28: fixed link to Google from
 
 ## Setup
 
@@ -291,7 +291,7 @@ Check (and double check) that all the tests are passing when you
 submit.  Submission:
 
 1. push to GitHub
-2. fill this form: https://forms.gle/KdjV9UCeWogpkNTD9Links to an external site
+2. fill this form: https://forms.gle/KdjV9UCeWogpkNTD9
 
 The reason for having a separate form is that you shouldn't feel
 reluctant to push partial work to GitHub.  If you decide you don't
