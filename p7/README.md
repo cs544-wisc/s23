@@ -1,6 +1,14 @@
-# NOT FINISHED, DON'T START YET!
-
 # P7 (8% of grade): BigQuery, Loans Data
+
+## Note
+
+This one is optional, but you can earn bonus credit by doing it (see https://canvas.wisc.edu/courses/345251/discussion_topics/1525284 for details).
+
+If you want us to grade you on P1-P7, fill this by the last day of
+class: https://forms.gle/KdjV9UCeWogpkNTD9.  This is a final
+decision, so even if you plan to do P7, I recommend waiting to fill
+this until you are done (in case you change your mind).  If you don't
+fill the form (or say "no" on the form), we'll grade you on P1-P6.
 
 ## Overview
 
@@ -26,23 +34,23 @@ Before starting, please review the [general project directions](../projects.md).
 
 ## Setup
 
-You'll create and submit a p7.ipynb notebook.  You'll answer 10
+You'll create and submit a `p7.ipynb` notebook.  You'll answer 10
 questions in the notebook.  If the output of a cell answers question
 3, start the cell with a comment: `#q3`.  The autograder depends on
 this to correlate parts of your output with specific questions.
 
-Run JupyterLab directly on your VM (no Docker containers).  Make sure
-you have these Python packages installed:
-* `google-cloud-bigquery`
-* `pandas`
-* `db-dtypes`
-
-You'll need to give your VM permission to access BigQuery and Google
-Drive.  You can do so by running the following and following the
-directions:
+Run JupyterLab directly on your VM (no Docker containers).  You'll need some packages:
 
 ```
-gcloud auth application-default login --scopes=openid,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.login,https://www.googleapis.com/auth/drive
+pip3 install google-cloud-bigquery google-cloud-bigquery-storage pyarrow tqdm ipywidgets pandas matplotlib db-dtypes
+```
+
+You'll also need to give your VM permission to access BigQuery and
+Google Drive.  You can do so by pasting the following into the
+terminal on your VM and following the directions:
+
+```
+gcloud auth application-default login --scopes=openid,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/drive.readonly
 ```
 
 **Be careful, because if a malicous party were to gain access to your
@@ -52,11 +60,44 @@ more).  For example, if your Jupyter is listening publicly (i.e.,
 password), someone could gain access to your VM, and then these other
 resources.**
 
-You can create a BigQuery client like this:
+When you're not actively working, you may want to revoke (take away)
+the permissions your VM has to minimize risk:
+
+```
+gcloud auth application-default revoke
+```
+
+## Notebook
+
+You can create a BigQuery client like this in your `p7.ipynb` (lookup
+your project in the Google cloud console to replace `????`):
+
 ```python
 from google.cloud import bigquery
-bq = bigquery.Client(project="cs320-f21")
+bq = bigquery.Client(project="????")
 ```
+
+You can do queries and get results in Pandas DataFrames like this:
+
+```python
+q = bq.query("""
+????
+""")
+q.to_dataframe()
+```
+
+Add comments in the cells that answer each question.  For example, Q1 should look like this:
+
+```python
+#q1
+...your code...
+```
+
+The autograder will extract your output from these cells, so it won't
+give points if not formatted correctly (extra spaces, split cells,
+etc.).  For this projects, answers are simple types (e.g., ints,
+floats, dicts), so you'll need to do a little extra work to get
+results out of the DataFrames you get from BigQuery.
 
 ## Part 1: County Data (Public Dataset)
 
@@ -77,7 +118,7 @@ it yourself as follows:
 Note that there are also some corner cases in US geography, with
 regions that are not part of a county.  For example, "St. Louis City"
 is an independant city, meaning it's not part of St. Louis County.
-Thus, the counties dataset contains some regions that are not
+The counties dataset contains some regions that are not
 technically counties (though we will treat them as such for this
 project).
 
@@ -104,7 +145,7 @@ Assumptions:
 
 Hints:
 1. look at the `total_bytes_billed` attribute of the query objects
-2. when you re-run the queries, bytes billed is probably about zero due to caching.  You can create a job config (to pass along with the query) to disable caching: `bigquery.QueryJobConfig(use_query_cache=False)`
+2. when you re-run the queries, bytes billed is probably zero due to caching.  You can create a job config (to pass along with the query) to disable caching: `bigquery.QueryJobConfig(use_query_cache=False)`.  This will let you get realistic numbers for first-time runs.
 3. look up the Iowa pricing per TB here: https://cloud.google.com/bigquery/pricing#on_demand_pricing
 
 Answer with dict where keys indentify which query, and values are the cost in dollars.  Example:
@@ -136,12 +177,12 @@ table called `hdma` inside your `p7` project.
 Use this line of code to answer:
 
 ```python
-[ds.dataset_id for ds in bq.list_datasets("cs320-f21")]
+[ds.dataset_id for ds in bq.list_datasets("????")] # PASTE project name
 ```
 
-The output ought to contain the `p7` project.
+The output ought to contain the `p7` dataset.
 
-#### Q5: how many loan applications are there for each county?
+#### Q5: how many loan applications are there in the HDMA data for each county?
 
 Answer with a dict where the key is the county name and the value is
 the count.  The dict should only contain the 10 counties with most
@@ -160,8 +201,8 @@ applications.  It should look like this:
  'Winnebago': 9310}
 ```
 
-You'll need to join your private hdma table against the public
-counties table.
+You'll need to join your private table against the public counties
+table to get the county name.
 
 ## Part 3: Application Data (Google Sheet Linked to Form)
 
@@ -233,18 +274,32 @@ time.
 
 For example, if 75% are greater, the answer would be 0.75.
 
-Note that the model has two features: income and loan_term; the form
+Note that the model has two features: `income` and `loan_term`; the form
 only collects income, so assume the loan term is 360 months (30 years)
 for all the applications in the Google sheet.
 
+## Grading:
+
+Run `autograder.py p7.ipynb` to estimate your grade.  In general, this
+will be your grade unless there is a serious issue such as hardcoding
+or a code that isn't close but happens to produce a result in the
+acceptable range. Please reach out to Kalpit for any questions/suggestions.
+
 ## Submission
+
+Check (and double check) that all the tests are passing when you
+submit.  Submission:
+
+1. push to GitHub
+2. fill this form: https://forms.gle/KdjV9UCeWogpkNTD9Links to an external site
+
+The reason for having a separate form is that you shouldn't feel
+reluctant to push partial work to GitHub.  If you decide you don't
+want us to grade P7, just don't fill the form, and the partial work on
+GitHub won't hurt you.
 
 We should be able to open and run your notebook.  Note that your GCP
 project name and GCP bucket name are probably different than ours.
 It's OK to hardcode names specific to your account in your notebook
 and assume that anybody else that wants to run it will tweak the code
 accordingly.
-
-## Grading:
-
-TODO: comment about autograder...
