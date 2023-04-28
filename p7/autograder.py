@@ -202,13 +202,14 @@ def compare_func(actual_csv):
             actual_dict = eval(actual["value"])
 
             if len(expected_dict) != len(actual_dict):
+                print("len")
                 failed = True
             else:
                 for key, expected_value in expected_dict.items():
                     if key in actual_dict:
                         actual_value = actual_dict[key]
-                        # Compare the values with a tolerance of within 2 orders of magnitude
-                        if abs(expected_value - actual_value) <= (abs(expected_value) * 0.01):
+                        if abs(expected_value - actual_value) <= (0.00001):
+                            
                             failed = False
                         else:
                             failed = True
