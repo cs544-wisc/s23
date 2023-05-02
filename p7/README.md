@@ -31,6 +31,7 @@ Before starting, please review the [general project directions](../projects.md).
 ## Clarifications/Correction
 
 * Apr 28: fixed link to Google from
+* May 2: edited pip install directions to match lecture (though the previous packages listed are sufficient for this particular project)
 
 ## Setup
 
@@ -42,7 +43,7 @@ this to correlate parts of your output with specific questions.
 Run JupyterLab directly on your VM (no Docker containers).  You'll need some packages:
 
 ```
-pip3 install google-cloud-bigquery google-cloud-bigquery-storage pyarrow tqdm ipywidgets pandas matplotlib db-dtypes
+pip3 install google-cloud-bigquery google-cloud-bigquery-storage pyarrow tqdm ipywidgets pandas matplotlib db-dtypes pandas-gbq
 ```
 
 You'll also need to give your VM permission to access BigQuery and
