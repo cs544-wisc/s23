@@ -116,11 +116,6 @@ def compare_dict(expected, actual, config={}):
                 return False
                 
         return True
-    #updated function    
-    for key in expected.keys():
-        if key in actual.keys():
-            return True
-    #Todo
 
     return expected == actual
 
